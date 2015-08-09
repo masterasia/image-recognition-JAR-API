@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class URLRecognition extends BaseRecognition {
 
+    URLRecognition() {
+    }
+
     @Override
     public void prepare(String... paths) throws ExaDeepExceotion {
         if (null == paths || paths.length == 0)
@@ -42,10 +45,14 @@ public class URLRecognition extends BaseRecognition {
                     e.printStackTrace();
                 }
 
-                RecognitionResult recognitionResult = JSON.parseObject(httpResult.content, RecognitionResult.class);
-                recognitionResult.setPath(path);
-                recognitionResult.judgeYellow();
-                recognitionResults.add(recognitionResult);
+                try {
+                    RecognitionResult recognitionResult = JSON.parseObject(httpResult.content, RecognitionResult.class);
+                    recognitionResult.setPath(path);
+                    recognitionResult.judgeYellow();
+                    recognitionResults.add(recognitionResult);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
 

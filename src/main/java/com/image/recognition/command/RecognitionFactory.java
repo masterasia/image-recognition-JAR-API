@@ -1,4 +1,4 @@
-package com.image.recognition;
+package com.image.recognition.command;
 
 import com.image.recognition.bean.RequestType;
 import com.image.recognition.command.BaseRecognition;

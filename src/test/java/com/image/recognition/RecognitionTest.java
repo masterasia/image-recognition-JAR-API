@@ -3,6 +3,7 @@ package com.image.recognition;
 import com.image.recognition.bean.RecognitionResult;
 import com.image.recognition.bean.RequestType;
 import com.image.recognition.command.BaseRecognition;
+import com.image.recognition.command.RecognitionFactory;
 import com.image.recognition.exception.ExaDeepExceotion;
 import org.junit.Test;
 
@@ -25,5 +26,19 @@ public class RecognitionTest {
         } catch (ExaDeepExceotion exaDeepExceotion) {
             exaDeepExceotion.printStackTrace();
         }
+    }
+
+    @Test
+    public void ResourceTest(){
+        BaseRecognition baseRecognition = RecognitionFactory.getRecognition(RequestType.RESOURCES);
+        try {
+            baseRecognition.prepare("F:/test");
+            List<RecognitionResult> recognitionResults = baseRecognition.execute();
+            assertTrue(!recognitionResults.get(0).isYellow());
+            assertTrue(recognitionResults.get(1).isYellow());
+        } catch (ExaDeepExceotion exaDeepExceotion) {
+            exaDeepExceotion.printStackTrace();
+        }
+
     }
 }
