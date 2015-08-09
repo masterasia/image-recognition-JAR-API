@@ -3,9 +3,6 @@ package com.image.recognition.tools;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Created by robert on 2015/8/5.
@@ -45,14 +42,14 @@ public class HttpHelper implements Constant {
         }
     }
 
-    private static String getStringFromStream(InputStream inputStream){
+    private static String getStringFromStream(InputStream inputStream) {
         char[] temp = new char[1024];
         CharArrayWriter writer = new CharArrayWriter();
         try {
-            for (int n = 0; (n = new InputStreamReader(inputStream).read(temp)) > 0;) {
+            for (int n = 0; (n = new InputStreamReader(inputStream).read(temp)) > 0; ) {
                 writer.write(temp);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return writer.toString();

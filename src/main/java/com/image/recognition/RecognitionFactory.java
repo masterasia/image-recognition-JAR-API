@@ -6,11 +6,10 @@ import com.image.recognition.command.SingleRecognition;
 
 /**
  * Created by robert on 2015/8/5.
- *
  */
 public class RecognitionFactory {
 
-    public static BaseRecognition getRecognition(RequestType requestType){
+    public static BaseRecognition getRecognition(RequestType requestType) {
         switch (requestType) {
             //单地址模式
             case SINGLE:
