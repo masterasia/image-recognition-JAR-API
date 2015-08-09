@@ -38,11 +38,13 @@ public class HttpTest implements Constant{
     @Test
     public void httpSendTest(){
         try{
-            Map<Object, Object> mt = new HashMap<Object, Object>();
-            mt.put("api_key", "a_test_key");
-            mt.put("urls", "http://ww2.sinaimg.cn/mw600/a00dfa2agw1eus8btk8xdj20tl18g128.jpg");
+            String mt = "{\"api_key\" => \"exadeep_ruby_demo_key\", \"urls\" => [\"http://ww2.sinaimg.cn/mw600/a00dfa2agw1eus8btk8xdj20tl18g128.jpg\",\"http://ww4.sinaimg.cn/mw600/006b7bQngw1euskv84yz0j30lm0vy78x.jpg\"]}";
+//            Map<Object, Object> mt = new HashMap<Object, Object>();
+//            mt.put("api_key", "a_test_key");
+//            mt.put("urls", "http://ww2.sinaimg.cn/mw600/a00dfa2agw1eus8btk8xdj20tl18g128.jpg");
 //            mt.put("urls", "http://ww4.sinaimg.cn/mw600/006b7bQngw1euskv84yz0j30lm0vy78x.jpg");
             HttpHelper.HttpResult httpResult = HttpHelper.httpRequest("https://exadeep.com/api/v1/jianhuang", POST, mt);
+            System.out.println(httpResult.content);
         }catch (IOException e){
             e.printStackTrace();
         }

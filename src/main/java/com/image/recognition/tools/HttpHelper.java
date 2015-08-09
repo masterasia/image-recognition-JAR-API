@@ -12,7 +12,7 @@ import java.util.Map.Entry;
  */
 public class HttpHelper implements Constant {
 
-    public static HttpResult httpRequest(String urlPath, String method, Map<Object, Object> params) throws IOException {
+    public static HttpResult httpRequest(String urlPath, String method, String params) throws IOException {
         HttpURLConnection httpURLConnection = null;
         try {
             URL url = new URL(urlPath);
@@ -29,12 +29,15 @@ public class HttpHelper implements Constant {
             String message = "";
             if (null != params && !params.isEmpty()) {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(byteFromMap(params));
+                outputStream.write(params.getBytes("UTF-8"));
                 outputStream.flush();
                 outputStream.close();
-                re = httpURLConnection.getResponseCode();
-                message = getStringFromStream(httpURLConnection.getInputStream());
             }
+
+            re = httpURLConnection.getResponseCode();
+
+            message = getStringFromStream(httpURLConnection.getInputStream());
+
             return new HttpResult(re, message);
         } finally {
             if (null != httpURLConnection)
@@ -53,29 +56,6 @@ public class HttpHelper implements Constant {
             e.printStackTrace();
         }
         return writer.toString();
-    }
-
-    private static byte[] byteFromMap(Map<Object, Object> params){
-        StringBuilder sb = new StringBuilder();
-        System.out.print(params.toString());
-        sb.append("{");
-        Iterator<Entry<Object, Object>> iterator = params.entrySet().iterator();
-        int flag = 0;
-        while (iterator.hasNext()) {
-            Entry<Object, Object> entry = iterator.next();
-            if (flag++ > 0)
-                sb.append(",");
-            sb.append("\"");
-            sb.append(entry.getKey());
-            sb.append("\"");
-            sb.append("=>");
-            sb.append("\"");
-            sb.append(entry.getValue());
-            sb.append("\"");
-
-        }
-        sb.append("}");
-        return sb.toString().getBytes();
     }
 
     static public class HttpResult {
