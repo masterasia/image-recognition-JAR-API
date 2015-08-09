@@ -12,7 +12,9 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by robert on 2015/8/9.
@@ -38,12 +40,12 @@ public class FileRecognition extends BaseRecognition {
     }
 
     @Override
-    public List<RecognitionResult> execute() {
-        List<RecognitionResult> recognitionResults = new ArrayList<RecognitionResult>();
+    public RecognitionResult execute() {
+        List<File> tmpFiles = new ArrayList<File>();
+        HttpHelper.HttpResult httpResult = null;
         if (getParams().getClass().isInstance(List.class)) ;
         {
             for (File file : (List<File>) getParams()) {
-                HttpHelper.HttpResult httpResult = null;
                 try {
                     BufferedImage bi = ImageIO.read(file);
                     if (null == bi)
@@ -53,29 +55,35 @@ public class FileRecognition extends BaseRecognition {
                         File fileTMP = new File(file.getPath() + ".bak");
 
                         ImageIO.write(bit, "jpeg", fileTMP);
-                        file = fileTMP;
+                        tmpFiles.add(fileTMP);
+                    }else {
+                        tmpFiles.add(file);
                     }
 
-                    httpResult = HttpHelper.httpRequestFile(getUrlPath(), file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                try {
-                    RecognitionResult recognitionResult = JSON.parseObject(httpResult.content, RecognitionResult.class);
-                    recognitionResult.setPath(file.getPath());
-                    recognitionResult.judgeYellow();
-                    recognitionResults.add(recognitionResult);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+            }
+        }
 
+        try {
+            httpResult = HttpHelper.httpRequestFile(getUrlPath(), tmpFiles);
+
+            RecognitionResult recognitionResult = JSON.parseObject(httpResult.content, RecognitionResult.class);
+
+            return recognitionResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            for (File file : tmpFiles) {
                 if (file.getName().endsWith(".bak"))
                     file.delete();
             }
         }
 
-        return recognitionResults;
+
+        return null;
     }
 
     private BufferedImage transBufferedImage(BufferedImage bi) {

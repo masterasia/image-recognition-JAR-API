@@ -3,8 +3,6 @@ package com.image.recognition.command;
 import com.image.recognition.bean.RecognitionResult;
 import com.image.recognition.exception.ExaDeepExceotion;
 
-import java.util.List;
-
 /**
  * Created by robert on 2015/8/5.
  */
@@ -20,7 +18,7 @@ public class BaseRecognition {
         throw new ExaDeepExceotion("are you serious?");
     }
 
-    public List<RecognitionResult> execute() {
+    public RecognitionResult execute() {
 
         return null;
     }

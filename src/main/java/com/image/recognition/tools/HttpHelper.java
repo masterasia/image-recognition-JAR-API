@@ -10,19 +10,23 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by robert on 2015/8/5.
  */
 public class HttpHelper implements Constant {
 
-    public static HttpResult httpRequestURL(String urlPath, String url) throws IOException {
+    public static HttpResult httpRequestURL(String urlPath, List<String> urls) throws IOException {
         HttpClient httpClient = new HttpClient();
         PostMethod postMethod = new PostMethod(urlPath);
-        NameValuePair[] data = {
-                new NameValuePair("api_key", "exadeep_ruby_demo_key"),
-                new NameValuePair("urls[]", url)
-        };
+        NameValuePair[] data = new NameValuePair[urls.size() + 1];
+        int index = 0;
+        data[index++] = new NameValuePair("api_key", "exadeep_ruby_demo_key");
+        for (;index < urls.size() + 1; index++) {
+            data[index] = new NameValuePair("urls[]", urls.get(index - 1));
+        }
+
         postMethod.setRequestBody(data);
 
         int re = 0;
@@ -35,14 +39,16 @@ public class HttpHelper implements Constant {
         return new HttpResult(re, message);
     }
 
-    public static HttpResult httpRequestFile(String urlPath, File file) throws IOException {
+    public static HttpResult httpRequestFile(String urlPath, List<File> files) throws IOException {
         HttpClient httpClient = new HttpClient();
         PostMethod postMethod = new PostMethod(urlPath);
 
-        Part[] parts ={
-                new StringPart("api_key", "exadeep_ruby_demo_key", "ISO-8859-1"),
-                new FilePart("images[]", file.getName(), file)
-        };
+        Part[] parts = new Part[files.size() + 1];
+        int index = 0;
+        parts[index++] = new StringPart("api_key", "exadeep_ruby_demo_key", "ISO-8859-1");
+        for (; index < files.size() + 1; index++) {
+            parts[index] = new FilePart("images[]", files.get(index - 1));
+        }
 
         postMethod.setRequestEntity(new MultipartRequestEntity(parts, postMethod.getParams()));
 

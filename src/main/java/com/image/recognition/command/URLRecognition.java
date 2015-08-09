@@ -7,7 +7,6 @@ import com.image.recognition.tools.BuildHelper;
 import com.image.recognition.tools.HttpHelper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,29 +32,26 @@ public class URLRecognition extends BaseRecognition {
     }
 
     @Override
-    public List<RecognitionResult> execute() {
-        List<RecognitionResult> recognitionResults = new ArrayList<RecognitionResult>();
+    public RecognitionResult execute() {
         if (getParams().getClass().isInstance(List.class)) ;
         {
-            for (String path : (List<String>) getParams()) {
                 HttpHelper.HttpResult httpResult = null;
                 try {
-                    httpResult = HttpHelper.httpRequestURL(getUrlPath(), path);
+                    httpResult = HttpHelper.httpRequestURL(getUrlPath(), (List<String>) getParams());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 try {
                     RecognitionResult recognitionResult = JSON.parseObject(httpResult.content, RecognitionResult.class);
-                    recognitionResult.setPath(path);
-                    recognitionResult.judgeYellow();
-                    recognitionResults.add(recognitionResult);
+
+                    return recognitionResult;
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-            }
+
         }
 
-        return recognitionResults;
+        return null;
     }
 }
