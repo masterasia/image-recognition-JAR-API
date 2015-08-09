@@ -2,7 +2,8 @@ package com.image.recognition;
 
 import com.image.recognition.bean.RequestType;
 import com.image.recognition.command.BaseRecognition;
-import com.image.recognition.command.SingleRecognition;
+import com.image.recognition.command.FileRecognition;
+import com.image.recognition.command.URLRecognition;
 
 /**
  * Created by robert on 2015/8/5.
@@ -11,15 +12,12 @@ public class RecognitionFactory {
 
     public static BaseRecognition getRecognition(RequestType requestType) {
         switch (requestType) {
-            //单地址模式
-            case SINGLE:
-                return new SingleRecognition();
-            //多地址模式
-            case LIST:
-                break;
+            //HTTP地址模式
+            case URL:
+                return new URLRecognition();
             //本地文件模式
             case RESOURCES:
-                break;
+                return new FileRecognition();
             default:
                 break;
         }

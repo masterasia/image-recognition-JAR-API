@@ -1,58 +1,38 @@
 package com.image.recognition.tools;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
+
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by robert on 2015/8/5.
  */
 public class HttpHelper implements Constant {
 
-    public static HttpResult httpRequest(String urlPath, String method, String params) throws IOException {
-        HttpURLConnection httpURLConnection = null;
-        try {
-            URL url = new URL(urlPath);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod(method);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.setDoOutput(true);
-            httpURLConnection.setConnectTimeout(TIME_OUT);
-            httpURLConnection.setReadTimeout(TIME_OUT);
+    public static HttpResult httpRequestURL(String urlPath, String url) throws IOException {
 
-            httpURLConnection.connect();
+        try {
+            HttpClient httpClient = new HttpClient();
+            PostMethod postMethod = new PostMethod(urlPath);
+            NameValuePair[] data = {
+                    new NameValuePair("api_key", "exadeep_ruby_demo_key"),
+                    new NameValuePair("urls[]", url)
+            };
+            postMethod.setRequestBody(data);
 
             int re = 0;
             String message = "";
-            if (null != params && !params.isEmpty()) {
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(params.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-            }
 
-            re = httpURLConnection.getResponseCode();
+            re = httpClient.executeMethod(postMethod);
 
-            message = getStringFromStream(httpURLConnection.getInputStream());
+            message = postMethod.getResponseBodyAsString();
 
             return new HttpResult(re, message);
         } finally {
-            if (null != httpURLConnection)
-                httpURLConnection.disconnect();
-        }
-    }
 
-    private static String getStringFromStream(InputStream inputStream) {
-        char[] temp = new char[1024];
-        CharArrayWriter writer = new CharArrayWriter();
-        try {
-            for (int n = 0; (n = new InputStreamReader(inputStream).read(temp)) > 0; ) {
-                writer.write(temp);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return writer.toString();
     }
 
     static public class HttpResult {

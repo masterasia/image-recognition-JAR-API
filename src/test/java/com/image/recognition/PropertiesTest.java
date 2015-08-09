@@ -13,4 +13,14 @@ public class PropertiesTest {
         assertTrue(null != BuildHelper.getValue("HTTP.URL"));
         assertTrue(!BuildHelper.getValue("HTTP.URL").isEmpty());
     }
+
+    @Test
+    public void httpRex(){
+//        String url = "http://www.baidu.com";
+//        String url = "http://blog.chinaunix.net/uid-22174570-id-1786903.html";
+//        String url = "https://gitcafe.com/exadeep/py_isporn";
+        String url = "https://exadeep.com/api";
+
+        assertTrue(BuildHelper.rexHttpURL(url));
+    }
 }

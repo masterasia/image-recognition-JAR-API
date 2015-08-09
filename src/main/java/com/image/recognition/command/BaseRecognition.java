@@ -2,41 +2,34 @@ package com.image.recognition.command;
 
 import com.image.recognition.bean.RecognitionResult;
 import com.image.recognition.exception.ExaDeepExceotion;
-import com.image.recognition.tools.HttpHelper;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by robert on 2015/8/5.
  */
 public class BaseRecognition {
-    //
-    private String params;
-
+    //请求发送内容
+    private Object params;
+    //请求路径
     private String urlPath;
-
+    //请求类型
     private String requestMethod;
 
     public void prepare(String... path) throws ExaDeepExceotion {
-
+        throw new ExaDeepExceotion("are you serious?");
     }
 
-    ;
+    public List<RecognitionResult> execute() {
 
-    public RecognitionResult execute() {
-        try {
-            HttpHelper.HttpResult httpResult = HttpHelper.httpRequest(urlPath, requestMethod, params);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 
-    public String getParams() {
+    public Object getParams() {
         return params;
     }
 
-    public void setParams(String params) {
+    public void setParams(Object params) {
         this.params = params;
     }
 

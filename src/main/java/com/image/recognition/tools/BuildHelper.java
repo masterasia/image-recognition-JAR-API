@@ -11,7 +11,7 @@ public class BuildHelper {
 
     private static Properties properties;
 
-    private static final String REX = "http(s)?://([/w-]+/.)+[/w-]+(/[/w- ./?%&=]*)?";
+    private static final String REX = "^(http|https)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$";
 
     static {
         properties = new Properties();
@@ -27,6 +27,12 @@ public class BuildHelper {
         return properties.get(key).toString();
     }
 
+    /**
+     * check url
+     *
+     * @param url url path
+     * @return is a url or not
+     */
     public static boolean rexHttpURL(String url) {
         if (url.matches(REX))
             return true;
