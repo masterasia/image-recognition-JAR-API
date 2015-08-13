@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 public class PropertiesTest {
     @Test
     public void properties() {
-        assertTrue(null != BuildHelper.getValue("HTTP.URL"));
-        assertTrue(!BuildHelper.getValue("HTTP.URL").isEmpty());
+        assertTrue(null != BuildHelper.getValue("HTTP.URL.ISPORN"));
+        assertTrue(!BuildHelper.getValue("HTTP.URL.ISPORN").isEmpty());
     }
 
     @Test

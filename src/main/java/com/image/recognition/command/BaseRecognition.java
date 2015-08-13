@@ -3,18 +3,20 @@ package com.image.recognition.command;
 import com.image.recognition.bean.RecognitionResult;
 import com.image.recognition.exception.ExaDeepExceotion;
 
+import java.util.List;
+
 /**
  * Created by robert on 2015/8/5.
  */
 public class BaseRecognition {
-    //ÇëÇó·¢ËÍÄÚÈÝ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private Object params;
-    //ÇëÇóÂ·¾¶
+    //ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
     private String urlPath;
-    //ÇëÇóÀàÐÍ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private String requestMethod;
 
-    public void prepare(String... path) throws ExaDeepExceotion {
+    public void prepare(List<String> paths) throws ExaDeepExceotion {
         throw new ExaDeepExceotion("are you serious?");
     }
 

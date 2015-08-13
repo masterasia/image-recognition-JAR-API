@@ -1,5 +1,7 @@
 package com.image.recognition.bean;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +37,13 @@ public class RecognitionResult {
         this.results = results;
     }
 
+    @Override
+    public String toString() {
+        return "RecognitionResult{" +
+                "status=" + status +
+                ", time=" + time +
+                ", results=" + JSON.toJSONString(results) +
+                '}';
+    }
 
 }

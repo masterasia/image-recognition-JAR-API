@@ -25,25 +25,32 @@ public class FileRecognition extends BaseRecognition {
     }
 
     @Override
-    public void prepare(String... path) throws ExaDeepExceotion {
-        if (null == path || path.length == 0)
+    public void prepare(List<String> paths) throws ExaDeepExceotion {
+        if (null == paths || paths.isEmpty())
             throw new ExaDeepExceotion("please make sure input file path.");
-        File file = new File(path[0]);
-        if (!file.exists() || !file.isDirectory())
-            throw new ExaDeepExceotion("auto load need a directory.");
 
-        File[] images = file.listFiles();
+        List<File> files = new ArrayList<File>();
+        for (String path : paths) {
+            File file = new File(path);
+            if (!file.exists())
+                throw new ExaDeepExceotion("auto load need a directory or a file.");
 
+            if (!file.isDirectory()) {
+                files.add(file);
+            } else {
+                files.addAll(Arrays.asList(file.listFiles()));
+            }
+        }
         this.setUrlPath(BuildHelper.getValue("HTTP.URL.ISPORN"));
 
-        this.setParams(Arrays.asList(images));
+        this.setParams(files);
     }
 
     @Override
     public RecognitionResult execute() {
         List<File> tmpFiles = new ArrayList<File>();
         HttpHelper.HttpResult httpResult = null;
-        if (getParams().getClass().isInstance(List.class)) ;
+        if (getParams() instanceof List) ;
         {
             for (File file : (List<File>) getParams()) {
                 try {
@@ -87,7 +94,7 @@ public class FileRecognition extends BaseRecognition {
     }
 
     private BufferedImage transBufferedImage(BufferedImage bi) {
-        //´´½¨Ò»¸öAffineTransform¶ÔÏó
+        //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½AffineTransformï¿½ï¿½ï¿½ï¿½
         AffineTransform transform = new AffineTransform();
         int nw = 270;
         int nh = 270;
@@ -98,13 +105,13 @@ public class FileRecognition extends BaseRecognition {
 
         double sx = nw * 1.0 / bi.getWidth();
         double sy = nh * 1.0 / bi.getHeight();
-        //ÊµÏÖËõ·Å£¬sxÑØ×ÅxÖáµÄËõ·ÅÒò×Ó£»syÑØ×ÅyÖáµÄËõ·ÅÒò×Ó
+        //Êµï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½sxï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½syï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         transform.setToScale(sx, sy);
 
         AffineTransformOp ato = new AffineTransformOp(transform, null);
-        //ÖØÐÂ´´½¨Ò»¸öBufferedImage¶ÔÏó
+        //ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½BufferedImageï¿½ï¿½ï¿½ï¿½
         BufferedImage bit = new BufferedImage(nw, nh, BufferedImage.TYPE_3BYTE_BGR);
-        //Ö´ÐÐ×ª»»
+        //Ö´ï¿½ï¿½×ªï¿½ï¿½
         ato.filter(bi, bit);
         return bit;
     }

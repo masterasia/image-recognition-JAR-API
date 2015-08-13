@@ -7,7 +7,6 @@ import com.image.recognition.tools.BuildHelper;
 import com.image.recognition.tools.HttpHelper;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,21 +18,21 @@ public class URLRecognition extends BaseRecognition {
     }
 
     @Override
-    public void prepare(String... paths) throws ExaDeepExceotion {
-        if (null == paths || paths.length == 0)
-            throw new ExaDeepExceotion("please make sure input ULR.");
+    public void prepare(List<String> paths) throws ExaDeepExceotion {
+        if (null == paths || paths.isEmpty())
+            throw new ExaDeepExceotion("please input ULR.");
         for (String path : paths)
             if (!BuildHelper.rexHttpURL(path))
                 throw new ExaDeepExceotion("someone of your paths is illegal.");
 
         this.setUrlPath(BuildHelper.getValue("HTTP.URL.ISPORN"));
 
-        this.setParams(Arrays.asList(paths));
+        this.setParams(paths);
     }
 
     @Override
     public RecognitionResult execute() {
-        if (getParams().getClass().isInstance(List.class)) ;
+        if (getParams() instanceof List) ;
         {
                 HttpHelper.HttpResult httpResult = null;
                 try {
