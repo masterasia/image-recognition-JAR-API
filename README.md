@@ -18,4 +18,12 @@ There already have two definition:RequestType.URL  RequestType.RESOURCES
 When you use the interface, you need call prepare first, and then just execute it.
 
 
+Before you use it, please check properties.
+In the path:src/main/resources/init.properties
+KEY:means
+HTTP.URL.ISPORN:The API url you get from https://exadeep.com/
+HTTP.METHOD.ISPORN:no use now
+API.KEY.ISPORN:the KEY you get from https://exadeep.com/
+
+
 Any problem, leave a meesage. 
