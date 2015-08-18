@@ -9,11 +9,11 @@ import java.util.List;
  * Created by robert on 2015/8/5.
  */
 public class BaseRecognition {
-    //����������
+    //base params
     private Object params;
-    //����·��
+    //url request path
     private String urlPath;
-    //��������
+    //url request type
     private String requestMethod;
 
     public void prepare(List<String> paths) throws ExaDeepExceotion {

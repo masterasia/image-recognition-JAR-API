@@ -9,10 +9,10 @@ public class RecognitionFactory {
 
     public static BaseRecognition getRecognition(RequestType requestType) {
         switch (requestType) {
-            //HTTP��ַģʽ
+            //HTTP
             case URL:
                 return new URLRecognition();
-            //�����ļ�ģʽ
+            //FILE
             case RESOURCES:
                 return new FileRecognition();
             default:

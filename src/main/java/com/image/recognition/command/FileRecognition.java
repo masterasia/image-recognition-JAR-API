@@ -94,7 +94,7 @@ public class FileRecognition extends BaseRecognition {
     }
 
     private BufferedImage transBufferedImage(BufferedImage bi) {
-        //����һ��AffineTransform����
+        //AffineTransform what can translate a new image
         AffineTransform transform = new AffineTransform();
         int nw = 270;
         int nh = 270;
@@ -105,13 +105,13 @@ public class FileRecognition extends BaseRecognition {
 
         double sx = nw * 1.0 / bi.getWidth();
         double sy = nh * 1.0 / bi.getHeight();
-        //ʵ�����ţ�sx����x����������ӣ�sy����y�����������
+        //set new image size
         transform.setToScale(sx, sy);
 
         AffineTransformOp ato = new AffineTransformOp(transform, null);
-        //���´���һ��BufferedImage����
+        //get new image
         BufferedImage bit = new BufferedImage(nw, nh, BufferedImage.TYPE_3BYTE_BGR);
-        //ִ��ת��
+        //translate
         ato.filter(bi, bit);
         return bit;
     }
